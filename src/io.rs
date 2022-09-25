@@ -25,13 +25,14 @@
 //! ```
 
 use std::fs::File;
-use std::io::{Write, BufReader};
+use std::io::{BufReader, Write};
+
+use bincode::{deserialize_from, serialize, Infinite};
 use serde;
 use serde_json;
-use bincode::{serialize, deserialize_from, Infinite};
-use Transform;
 
-use ErrorKind;
+use crate::Transform;
+use crate::ErrorKind;
 
 /// Saves given neural network to file specified by `file_path`.
 ///
@@ -49,7 +50,7 @@ use ErrorKind;
 /// /* train here your neural network */
 /// io::save(&mut nn, "test.flow");
 /// ```
-pub fn save<T: Transform>(obj: &mut T, file_path: &str) -> Result<(), ErrorKind>{
+pub fn save<T: Transform>(obj: &mut T, file_path: &str) -> Result<(), ErrorKind> {
     let mut file = File::create(file_path).map_err(ErrorKind::IO)?;
 
     obj.before();
@@ -75,7 +76,10 @@ pub fn save<T: Transform>(obj: &mut T, file_path: &str) -> Result<(), ErrorKind>
 /// let mut new_nn: FeedForward = io::load("test.flow")
 ///     .unwrap_or(FeedForward::new(&[2, 2, 1]));
 /// ```
-pub fn load<'b, T>(file_path: &'b str) -> Result<T, ErrorKind> where T: Transform{
+pub fn load<'b, T>(file_path: &'b str) -> Result<T, ErrorKind>
+where
+    T: Transform,
+{
     let file = File::open(file_path).map_err(ErrorKind::IO)?;
     let mut buf = BufReader::new(file);
 
@@ -91,6 +95,4 @@ pub fn to_json<T: serde::Serialize>(obj: &T) -> Result<String, ErrorKind> {
 }
 
 /// Function for deserializing of JSON to NN struct
-pub fn from_json(s: &str){
-
-}
+pub fn from_json(s: &str) {}

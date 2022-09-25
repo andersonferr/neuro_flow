@@ -1,14 +1,13 @@
 [package]
 name = "neuroflow"
 version = "0.1.3"
-
+edition = "2021"
 description = "The neural network library implemented in Rust"
 repository = "https://github.com/MikhailKravets/NeuroFlow"
 readme = "README.md"
 keywords = ["machine-learning", "neural-networks", "data-learning", "math", "backpropagation"]
 categories = ["algorithms", "science"]
 license = "MIT"
-
 authors = ["Mikhail Kravets <michkravets@gmail.com>"]
 exclude = ["examples/*", "tests/*"]
 
